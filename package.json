@@ -1,0 +1,15 @@
+{
+  "name": "nueva-carpeta",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "app": "pnpm run --parallel dev",
+    "run:api": "pnpm run --filter backend dev",
+    "run:front": "pnpm run --filter frontend dev" 
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
