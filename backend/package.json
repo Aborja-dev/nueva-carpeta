@@ -7,20 +7,21 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "dev:server": "ts-node-dev index.ts",
-    "dev:model": "tsc -b"
+    "dev:model": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only  src/model/index.ts"
   },
   "keywords": [],
-  "author": "",
+  "author": "",   
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.14.11",
     "prisma": "^5.17.0",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.5.3"
   },
   "dependencies": {
-    "@prisma/client": "^5.17.0"
+    "@prisma/client": "5.17.0"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"

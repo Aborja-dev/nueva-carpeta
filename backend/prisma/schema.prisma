@@ -43,8 +43,8 @@ model Event {
   url                   String?
   location              String?
   statusId              Int
-  proposalsStartingDate DateTime
-  proposalsEndingDate   DateTime
+  proposalsStartingDate DateTime?
+  proposalsEndingDate   DateTime?
   timezone              String
   type                  EventType      @relation(fields: [typeId], references: [id]) // un evento solo puede tener un tipo pero un tipo puede estar en varios eventos
   status                EventStatus    @relation(fields: [statusId], references: [id]) // un evento solo puede tener un status pero un status puede estar en varios eventos
