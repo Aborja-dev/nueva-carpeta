@@ -1,60 +1,16 @@
 import { ModelError } from "@model/ErrorHandler";
-import { UserModel } from "@repos/entities";
-import { ProposalStatuses } from "@model/types/enum";
+import { TalkProposalModel } from "@repos/entities";
 import { PrismaClient } from "@prisma/client/extension";
+import { ForInsertProposal, ForUpdateProposal } from "@/model/repos/Proposal.type";
+import { ForProposalRepositoryOperations } from "@/model/repos/Proposal.interface";
 
-export type AttachmentOnProposal = {
-    id: number;
-    description?: string;
-    alt?: string;
-    url: string;
-    file: string;
-    proposal: TalkProposalModel;
-    proposalId: number;
-  };
-  
-  // Tipo para Topic
-  export type Topic = {
-    id: number;
-    name: string;
-    description?: string;
-    proposals: TalkProposalModel[];
-  };
+
   
   // Tipo para TalkProposal
-  export type TalkProposalModel = {
-    id: number;
 
-    event?: {
-      id: string;
-      name: string;
-    };
-    eventId: string;
-    
-    candidate?: {
-      id: string;
-      name: string;
-    };
-    candidateId: string;
-
-    status?: ProposalStatuses;
-    statusId: number;
-
-    title: string;
-    abstract: string;
-    estimatedDuration: number;
-    attachmentsIds: number[];
-    streamed: boolean;
-    uniqueCode: string;
-    topicIds: number[];
-    topics: {
-        name: string;
-    }[];
-  };
   
-  type ForInsertProposal = Pick<TalkProposalModel, 'title' | 'topicIds' | 'abstract' | 'estimatedDuration' | 'streamed' | 'eventId' | 'candidateId' | 'statusId' | 'attachmentsIds' >
-  type ForUpdateProposal = Pick<TalkProposalModel,  'abstract' | 'estimatedDuration' | 'streamed' | 'statusId' | 'attachmentsIds' >
-  export class TalkProposalRepo {
+
+  export class TalkProposalRepo implements ForProposalRepositoryOperations {
 
     constructor(
         private readonly dbConnection: PrismaClient
@@ -85,7 +41,7 @@ export type AttachmentOnProposal = {
                     }
                 }
             })
-        } catch (error) {
+        } catch (error: any) {
             throw this.onError('insert', error.message, error)
         }
         
@@ -118,7 +74,7 @@ export type AttachmentOnProposal = {
                 }
             })
             return proposal
-        } catch (error) {
+        } catch (error: any) {
             throw this.onError('getById', error.message, error)
         }
     }
@@ -146,7 +102,7 @@ export type AttachmentOnProposal = {
                     }
                 }})
             return proposals
-        } catch (error) {
+        } catch (error: any) {
             throw this.onError('listAll', error.message, error)
         }
     }
@@ -177,7 +133,7 @@ export type AttachmentOnProposal = {
                     }
                 }})
             return proposals
-        } catch (error) {
+        } catch (error: any) {
             throw this.onError('filterBy', error.message, error)
         }       
     }
@@ -190,7 +146,7 @@ export type AttachmentOnProposal = {
                 },
                 data: input
             })
-        } catch (error) {
+        } catch (error: any) {
             throw this.onError('update', error.message, error)
         }
     }
@@ -202,7 +158,7 @@ export type AttachmentOnProposal = {
                     id
                 }
             })
-        } catch (error) {
+        } catch (error: any) {
             throw this.onError('delete', error.message, error)
         }
     }
