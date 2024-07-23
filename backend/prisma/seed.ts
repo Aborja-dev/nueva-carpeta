@@ -25,6 +25,13 @@ const userTypes = [
     'CANDIDATE'
 ]
 
+const topics = [
+    'COMUNICACIÓN',
+    'DESARROLLO',
+    'DISEÑO',
+    'CIENCIA',
+]
+
 const prisma = new PrismaClient()
 
 const createDataObject = (dataArray: string[]) => {
@@ -52,6 +59,11 @@ const main = async () => {
     const userTypesObjects = createDataObject(userTypes)
     await prisma.userType.createMany({
         data: userTypesObjects
+    })
+
+    const topicObjects = createDataObject(topics)
+    await prisma.topic.createMany({
+        data: topicObjects
     })
 }
 
