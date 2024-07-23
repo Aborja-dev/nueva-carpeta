@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client/extension";
 import { UserTypes } from "../types/enum";
-import { ModelError } from "../ErrorHanlder";
+import { ModelError } from "../ErrorHandler";
 import { ForUserRepositoryOperations } from "./UserRepo.interface";
 import { ForInsertUser, ForUpdateUser } from "./UserRepo.types";
 import { UserModel } from "./entities";

@@ -42,7 +42,7 @@ model Event {
   bannerUrl             String?
   url                   String?
   location              String?
-  statusId              Int @default(1)
+  statusId              Int            @default(1)
   proposalsStartingDate DateTime?
   proposalsEndingDate   DateTime?
   timezone              String
@@ -77,7 +77,7 @@ model ProposalStatus {
 }
 
 model AttachmentsOnProposal {
-  id          Int @id @default(autoincrement())
+  id          Int          @id @default(autoincrement())
   description String?
   alt         String?
   url         String
@@ -95,20 +95,18 @@ model Topic {
 }
 
 model TalkProposal {
-  id                   Int                    @id @default(autoincrement())
-  event                Event                  @relation(fields: [eventId], references: [id])
-  eventId              String
-  candidate            User                   @relation(fields: [candidateId], references: [id]) // una propuesta solo puede tener un candidato
-  candidateId          String
-  title                String
-  topicId              Int
-  abstract             String
-  estimatedDuration    Int
-  status               ProposalStatus         @relation(fields: [statusId], references: [id])
-  statusId             Int
-  attachments          String
-  streamed             Boolean
-  uniqueCode           String                 @unique
-  topic                Topic                  @relation(fields: [topicId], references: [id])
-  AttachmentOnProposal AttachmentsOnProposal[]
+  id                Int                     @id @default(autoincrement())
+  event             Event                   @relation(fields: [eventId], references: [id])
+  eventId           String
+  candidate         User                    @relation(fields: [candidateId], references: [id]) // una propuesta solo puede tener un candidato
+  candidateId       String
+  title             String
+  abstract          String
+  estimatedDuration Int
+  status            ProposalStatus          @relation(fields: [statusId], references: [id])
+  statusId          Int
+  streamed          Boolean
+  uniqueCode        String                  @unique @default(uuid())
+  topics            Topic[]
+  attachments      AttachmentsOnProposal[]
 }

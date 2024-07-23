@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client/extension";
 import { ForEventRepositoryOperations } from "./Event.interface";
-import { ModelError } from "../ErrorHanlder";
+import { ModelError } from "../ErrorHandler";
 import { EventStatuses } from "../types/enum";
 import { EventModel } from "./entities";
 import { ForInsertEvent, ForUpdateEvent } from "./Event.types";
@@ -53,6 +53,14 @@ export class EventRepo implements ForEventRepositoryOperations {
             const event = await this.dbConnection.event.findUnique({
                 where: {
                     id
+                },
+                include: {
+                    organizers: {
+                        select: {
+                            name: true,
+                            email: true
+                        }
+                    }
                 }
             })
             if (!event) return null

@@ -1,10 +1,12 @@
 import { client } from '@model/config/connection';
 import { UserRepo } from './repos/UserRepo';
-import { CustomError } from './ErrorHanlder';
+import { CustomError } from './ErrorHandler';
 import pc from 'picocolors';
 import { EventStatuses, UserTypes } from './types/enum';
 import { EventRepo } from './repos/EventRepo';
-
+import { TalkProposalRepo } from '@/model/repos/TalkProposal.repo';
+const ProposalRepo = new TalkProposalRepo(client);
+const eventRepo = new EventRepo(client); 
 const userRepotest = async () => {
     const userRepo = new UserRepo(client);
     try {
@@ -23,11 +25,23 @@ const userRepotest = async () => {
 }
 
 async function main() {
-    try {
-
+    try {/* 
+        await ProposalRepo.insert({
+            title: 'test',
+            topicIds: [1, 2],
+            abstract: 'lorem ipsum dolor sit amet consectetur adipisicing elit sed. Lorem ipsum dolor sit amet consectetur adipisicing elit sed.',
+            estimatedDuration: 100,
+            streamed: false,
+            eventId: '570944ff-4c94-4071-b028-22f230a50182',
+            candidateId: '5e063705-757d-407d-a3f2-f0ebda3d2084',
+            statusId: 1,
+            attachmentsIds: []
+        }) */
+       await ProposalRepo.delete(1);
+        
     } catch (error: any) {
         console.log(pc.red('Ocurrio un error'));
-        //console.log(error);
+        console.log(error);
         console.log(error.where as CustomError);
     }
 }
