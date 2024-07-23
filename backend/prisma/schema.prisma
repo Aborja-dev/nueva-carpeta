@@ -1,0 +1,114 @@
+// Este es tu archivo de esquema Prisma,
+// aprende más sobre él en los documentos: https://pris.ly/d/prisma-schema
+
+// ¿Buscas formas de acelerar tus consultas o escalar fácilmente con tus funciones serverless o edge?
+// Prueba Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+// MODELOS PARA USUARIO
+// TABLA QUE REPRESENTA UN ENUM DE DATOS
+model UserType {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  Users User[] // un tipo puede tener muchos usuarios
+}
+
+model User {
+  id     String         @id @default(uuid())
+  name   String
+  email  String         @unique
+  type   UserType       @relation(fields: [typeId], references: [id]) // un usuario solo puede tener un tipo
+  typeId Int
+  events Event[] // un usuario puede organizar varios eventos
+  talks  TalkProposal[] // un usuario puede proponer varias charlas
+}
+
+// MODELOS PARA EVENTOS
+model Event {
+  id                    String         @id @default(uuid())
+  name                  String
+  typeId                Int
+  description           String
+  startingDate          DateTime
+  endingDate            DateTime
+  bannerUrl             String?
+  url                   String?
+  location              String?
+  statusId              Int
+  proposalsStartingDate DateTime
+  proposalsEndingDate   DateTime
+  timezone              String
+  type                  EventType      @relation(fields: [typeId], references: [id]) // un evento solo puede tener un tipo pero un tipo puede estar en varios eventos
+  status                EventStatus    @relation(fields: [statusId], references: [id]) // un evento solo puede tener un status pero un status puede estar en varios eventos
+  organizers            User[] // un evento puede tener varios organizadores
+  talks                 TalkProposal[] // un evento puede tener varias propuestas de charlas
+}
+
+// TABLA QUE REPRESENTA UN ENUM DE DATOS
+model EventStatus {
+  id          Int     @id @default(autoincrement())
+  name        String  @unique
+  description String?
+  events      Event[]
+}
+
+// TABLA QUE REPRESENTA UN ENUM DE DATOS
+model EventType {
+  id          Int     @id @default(autoincrement())
+  name        String  @unique
+  description String?
+  events      Event[]
+}
+
+// MODELOS PARA LAS PROPUESTAS DE CHARLA
+// TABLA QUE REPRESENTA UN ENUM DE DATOS
+model ProposalStatus {
+  id        Int            @id @default(autoincrement())
+  name      String         @unique
+  proposals TalkProposal[] // un tipo puede tener muchas propuestas de charla
+}
+
+model AttachmentsOnProposal {
+  id          Int @id @default(autoincrement())
+  description String?
+  alt         String?
+  url         String
+  file        String
+  proposal    TalkProposal @relation(fields: [proposalId], references: [id])
+  proposalId  Int
+}
+
+// ESTA TABLA SIEMPRE VA A ESTAR EN MODELO
+model Topic {
+  id          Int            @id @default(autoincrement())
+  name        String         @unique
+  description String?
+  proposals   TalkProposal[] // un tema puede tener muchas propuestas de charla
+}
+
+model TalkProposal {
+  id                   Int                    @id @default(autoincrement())
+  event                Event                  @relation(fields: [eventId], references: [id])
+  eventId              String
+  candidate            User                   @relation(fields: [candidateId], references: [id]) // una propuesta solo puede tener un candidato
+  candidateId          String
+  title                String
+  topicId              Int
+  abstract             String
+  estimatedDuration    Int
+  status               ProposalStatus         @relation(fields: [statusId], references: [id])
+  statusId             Int
+  attachments          String
+  streamed             Boolean
+  uniqueCode           String                 @unique
+  topic                Topic                  @relation(fields: [topicId], references: [id])
+  AttachmentOnProposal AttachmentsOnProposal[]
+}
