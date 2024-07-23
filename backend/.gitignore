@@ -325,7 +325,7 @@ typings/
 
 # Output de 'npm pack'
 *.tgz
-
+*.db
 # Yarn Integrity file
 .yarn-integrity
 
