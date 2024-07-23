@@ -42,7 +42,7 @@ model Event {
   bannerUrl             String?
   url                   String?
   location              String?
-  statusId              Int
+  statusId              Int @default(1)
   proposalsStartingDate DateTime?
   proposalsEndingDate   DateTime?
   timezone              String

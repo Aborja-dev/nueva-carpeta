@@ -2,7 +2,8 @@ import { client } from '@model/config/connection';
 import { UserRepo } from './repos/UserRepo';
 import { CustomError } from './ErrorHanlder';
 import pc from 'picocolors';
-import { UserTypes } from './types/enum';
+import { EventStatuses, UserTypes } from './types/enum';
+import { EventRepo } from './repos/EventRepo';
 
 const userRepotest = async () => {
     const userRepo = new UserRepo(client);
@@ -20,9 +21,15 @@ const userRepotest = async () => {
         console.log(error.where as CustomError);
     }
 }
+
 async function main() {
-    
-    
+    try {
+
+    } catch (error: any) {
+        console.log(pc.red('Ocurrio un error'));
+        //console.log(error);
+        console.log(error.where as CustomError);
+    }
 }
 
 main();

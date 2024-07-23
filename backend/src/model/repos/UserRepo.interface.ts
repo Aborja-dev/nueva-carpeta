@@ -1,5 +1,4 @@
-import { UserModel } from './../types/types';
-import { PrismaClient } from "@prisma/client";
+import { UserModel } from '../types/types';
 import { UserTypes } from "../types/enum";
 import { ForInsertUser, ForUpdateUser } from './UserRepo.types';
 
