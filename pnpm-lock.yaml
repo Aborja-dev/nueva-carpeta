@@ -11,12 +11,15 @@ importers:
   backend:
     dependencies:
       '@prisma/client':
-        specifier: ^5.17.0
+        specifier: 5.17.0
         version: 5.17.0(prisma@5.17.0)
     devDependencies:
       '@types/node':
         specifier: ^20.14.11
         version: 20.14.11
+      picocolors:
+        specifier: ^1.0.1
+        version: 1.0.1
       prisma:
         specifier: ^5.17.0
         version: 5.17.0

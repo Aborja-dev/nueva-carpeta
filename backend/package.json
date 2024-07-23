@@ -7,13 +7,14 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "dev:server": "ts-node-dev index.ts",
-    "dev:model": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only  src/model/index.ts"
+    "dev:model": "ts-node -r tsconfig-paths/register --transpile-only  src/model/index.ts"
   },
   "keywords": [],
-  "author": "",   
+  "author": "",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.14.11",
+    "picocolors": "^1.0.1",
     "prisma": "^5.17.0",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
