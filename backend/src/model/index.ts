@@ -13,11 +13,11 @@ export const compositionPrisma = async () => {
     return repositories
 }
 
-(async () => {
+/* (async () => {
     const repositories = await compositionPrisma()
     const event = repositories.event
 
-/*     await event.insert({
+    await event.insert({
         name: 'Test ',
         url: 'test',
         startingDate: '2023-01-01',
@@ -36,8 +36,7 @@ export const compositionPrisma = async () => {
         id: '570944ff-4c94-4071-b028-22f230a50182',
         input: {
             description: 'updated test',
-    }}) */
+        }
+    })
     await event.delete('d5c7d216-6cf0-4c62-a42e-28a0a62f1e58')
-    
-    
-})()
+})() */
