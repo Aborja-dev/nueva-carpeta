@@ -1,56 +1,43 @@
-import { EventRepo } from "@/model/Event/repository";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client"
 
-async function main() {
-  
-  // Inicializa PrismaClient
-  const prisma = new PrismaClient();
-  
-  async function testEventRepositoryMethods() {
-      // Crea una instancia de EventRepo
-      const eventRepo = new EventRepo(prisma);
-  
-      // Insertar evento
-      const newEvent = {
-          name: 'Evento de prueba',
-          url: 'https://example.com/evento-prueba',
-          startingDate: new Date(),
-          endingDate: new Date(new Date().getTime() + 86400000), // Fecha de finalización 1 día después
-          timezone: 'UTC',
-          typeId: 1, // Asumiendo que existe un tipo de evento con ID 1
-          proposalsStartingDate: new Date(),
-          proposalsEndingDate: new Date(new Date().getTime() + 86400000),
-          description: 'Descripción del evento de prueba.',
-          bannerUrl: 'https://example.com/banner.jpg',
-          location: null,
-          organizers: ['5e063705-757d-407d-a3f2-f0ebda3d2084', 'b40bcf8a-4bfd-426f-9cd5-8d1448b397e4'] // Puedes agregar IDs de organizadores aquí si es necesario
-      };
-      await eventRepo.insert(newEvent);
-      console.log('Evento insertado:', newEvent);
-  
-      // Buscar evento por ID
-      const foundEvent = await eventRepo.search('7fa1dcf7-fece-4b56-82c9-018c3204b2ad');
-      console.log('Evento encontrado:', foundEvent);
-  
-      // Listar todos los eventos
-      const allEvents = await eventRepo.listAll();
-      console.log('Todos los eventos:', allEvents);
-  
-      // Actualizar evento (asumiendo que el evento existe)
-      const updateData = {
-          description: 'Actualizada la descripción del evento.'
-      };
-      await eventRepo.update({ id: '7fa1dcf7-fece-4b56-82c9-018c3204b2ad', input: updateData });
-      console.log('Evento actualizado:', updateData);
-  
-      // Eliminar evento (asumiendo que el evento existe)
-      await eventRepo.delete('7fa1dcf7-fece-4b56-82c9-018c3204b2ad');
-      console.log('Evento eliminado.');
-  }
-  
-  testEventRepositoryMethods()
-      .then(() => console.log('Pruebas completadas.'))
-      .catch(error => console.error('Error durante las pruebas:', error.where));
+
+export const compositionPrisma = async () => {
+    const client = new PrismaClient()
+    const eventRepo = new (await import('./Event/repository')).EventRepo(client)
+    const userRepo = new (await import('./User/repository')).UserRepo(client)
+    const proposalRepo = new (await import('./Proposal/repository')).TalkProposalRepo(client)
+
+    const repositories = {
+        event: new (await import('./Event/adapter')).EventAdapter(eventRepo),
+    }
+    return repositories
 }
 
-main();
+(async () => {
+    const repositories = await compositionPrisma()
+    const event = repositories.event
+
+/*     await event.insert({
+        name: 'Test ',
+        url: 'test',
+        startingDate: '2023-01-01',
+        endingDate: '2023-01-01',
+        type: 0,
+        description: 'test',
+        bannerUrl: 'test',
+        location: 'test',
+        timezone: 'test',
+        organizers: ['5e063705-757d-407d-a3f2-f0ebda3d2084']
+    })
+    console.log(await event.search('570944ff-4c94-4071-b028-22f230a50182'))
+    console.log(await event.listAll());
+    console.log(await event.listBy(1));
+    await event.update({
+        id: '570944ff-4c94-4071-b028-22f230a50182',
+        input: {
+            description: 'updated test',
+    }}) */
+    await event.delete('d5c7d216-6cf0-4c62-a42e-28a0a62f1e58')
+    
+    
+})()
