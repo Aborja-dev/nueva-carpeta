@@ -1,13 +1,15 @@
+import { ForCreateProposalController, ForUpdateProposalController, ProposalControllerObject, ProposalStatus, ProposalStatuses } from "@/app/Proposal/types";
+import { ForManagerProposalRepository } from "@/model/Proposal/interface";
 import { TalkProposalRepo } from "@/model/Proposal/repository";
 import { ProposalOutput } from "@/model/Proposal/types";
 
 
-export class ProposalAdapter {
+export class ProposalAdapter implements ForManagerProposalRepository {
     constructor(
         private readonly repository: TalkProposalRepo
     ) { }
 
-    async insert(input: ForCreateProposal): Promise<void> {
+    async insert(input: ForCreateProposalController): Promise<void> {
         await this.repository.insert({
             ...input,
             topicIds: input.topics,
@@ -16,7 +18,7 @@ export class ProposalAdapter {
         })
     }
 
-    async update({ id, input }: { id: number, input: Partial<ForUpdateProposal> }): Promise<void> {
+    async update({ id, input }: { id: number, input: Partial<ForUpdateProposalController> }): Promise<void> {
         await this.repository.update(id, input)
     }
 
@@ -61,48 +63,6 @@ const ToController = {
 }
 
 
-// Definición del mapeo de estados fuera de la clase
-const ProposalStatuses = {
-    0: 'ENVIADA',
-    1: 'EN_PROCESO',
-    2: 'PRESELECCION',
-    3: 'APROBADA',
-    4: 'RECHAZADA'
-} as const;
-
-type ProposalStatus = typeof ProposalStatuses[keyof typeof ProposalStatuses];
-
-export interface ForCreateProposal {
-    title: string,
-    abstract: string,
-    estimatedDuration: number,
-    status: number,
-    streamed: boolean,
-    uniqueCode: string,
-    topics: number[],
-    eventId: string,
-    candidateId: string
-}
-
-export interface ForUpdateProposal {
-    abstract: string,
-    estimatedDuration: number,
-    status: number,
-    streamed: boolean,
-}
-
-export interface ProposalControllerObject {
-    id: number;
-    title: string;
-    abstract: string;
-    estimatedDuration: number;
-    status: ProposalStatus;
-    streamed: boolean;
-    uniqueCode: string;
-    topics: string[];
-    candidate: { id: string; name: string };
-    event: { id: string; name: string };
-}
 
 
 

@@ -1,10 +1,11 @@
+import { compositionPrisma } from "@/model";
 import type { DatabaseModelType, ServerType } from "./types";
 
 
 interface AppConfig {
     server: ServerType
     port: number
-    model: DatabaseModelType
+    model: DatabaseModelType | {}
 }
 
 const app = async (config: AppConfig) => {
@@ -12,5 +13,6 @@ const app = async (config: AppConfig) => {
 }
 
 (async () => {
-    await app({ server: {}, port: 3000, model: {} })
+    const db = await compositionPrisma()
+    await app({ server: {}, port: 3000, model: db })
 })()

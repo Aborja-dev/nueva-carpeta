@@ -1,17 +1,14 @@
-import { EventModel } from "@/model/Event/schema";
+import { ForInsertEventModel, EventModelObject, ForUpdateEventModel } from '@model/Event/types';
 import { ModelError } from "@/utils/error/ModelError";
 import { PrismaClient } from "@prisma/client";
-
-export type ForInsertEvent = Pick<EventModel, 'name' | 'url' | 'startingDate' | 'endingDate' | 'timezone' | 'typeId' | 'proposalsStartingDate' | 'proposalsEndingDate' | 'description' | 'bannerUrl' | 'location' | 'organizers'>
-
-export type ForUpdateEvent = Pick<EventModel, 'description' | 'bannerUrl' | 'location' | 'endingDate' | 'startingDate' | 'url' | 'statusId'>
+import { ForManageEventRepository  } from "@/model/Event/interface";
 
 export class EventRepo {
     constructor(
         private readonly dbConnection: PrismaClient
     ) { }
 
-    async insert(input: ForInsertEvent): Promise<void> {
+    async insert(input: ForInsertEventModel): Promise<void> {
         const { name, url, startingDate, endingDate, timezone, typeId, proposalsStartingDate, proposalsEndingDate, description, bannerUrl, location} = input 
         const organizers = input.organizers as string[]
         try {
@@ -49,7 +46,7 @@ export class EventRepo {
         }
     }
 
-    async search(id: string): Promise<EventModel | null> {
+    async search(id: string): Promise<EventModelObject | null> {
         try {
             const event = await this.dbConnection.event.findUnique({
                 where: {
@@ -65,14 +62,13 @@ export class EventRepo {
                 }
             })
             if (!event) return null
-            console.log(event);
             return event
         } catch (error: any) {
             throw this.onError('getById', error.message, error)
         }
     }
 
-    async listAll(): Promise<EventModel[]> {
+    async listAll(): Promise<EventModelObject[]> {
         try {
             const events = await this.dbConnection.event.findMany(
                 {
@@ -92,7 +88,7 @@ export class EventRepo {
         }
     }
 
-    async listBy(status: number): Promise<EventModel[]> {
+    async listBy(status: number): Promise<EventModelObject[]> {
         // TODO adaptarlo a otros criterios de busqueda
         try {
             const events = this.dbConnection.event.findMany({
@@ -116,7 +112,7 @@ export class EventRepo {
         }
     }
 
-    async update({ id, input }: { id: string, input: Partial<ForUpdateEvent> }): Promise<void> {
+    async update({ id, input }: { id: string, input: Partial<ForUpdateEventModel> }): Promise<void> {
         try {
             await this.dbConnection.event.update({
                 where: {

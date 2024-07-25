@@ -3,8 +3,7 @@ import { ModelError } from "@/utils/error/ModelError"
 import { PrismaClient } from "@prisma/client"
 
 
-export class TalkProposalRepo {
-
+export class TalkProposalRepo  {
     constructor(
         private readonly dbConnection: PrismaClient
     ) {}
