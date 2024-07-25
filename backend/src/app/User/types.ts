@@ -11,7 +11,8 @@ export type UserTypes = typeof UserTypesConst[keyof typeof UserTypesConst];
 export interface ForCreateUserController {
     name: string,
     email: string,
-    type: number
+    type: UserTypes,
+    password: string
 }
 export interface ForUpdateUserController {
     name: string,
@@ -22,4 +23,12 @@ export interface UserControllerObject {
     name: string,
     email: string,
     type: UserTypes
+    password: string
+}
+
+export interface UserSesion {
+    id: string,
+    name: string,
+    type: UserTypes,
+    token: string
 }

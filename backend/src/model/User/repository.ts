@@ -7,13 +7,14 @@ export class UserRepo {
         private readonly dbConnection: PrismaClient
     ) {}
 
-    async insert (input: ForInsertUser): Promise<void>{
-        const {email, name, typeId} = input
+    async insert (input: ForInsertUser): Promise<string> {
+        const {email, name, typeId, passwordHash} = input
         try {
-            await this.dbConnection.user.create({
+            const result = await this.dbConnection.user.create({
                 data: {
                     email,
                     name,
+                    passwordHash,
                     type: {
                         connect: {
                             id: typeId
@@ -21,8 +22,9 @@ export class UserRepo {
                     }
                 }
             })
-        } catch (error) {
-            this.onError('insert')
+            return result.id
+        } catch (error: any) {
+            throw this.onError('insert', error.name, error)
         }
         
     }
@@ -81,6 +83,19 @@ export class UserRepo {
             const user = await this.dbConnection.user.findUnique({
                 where: {
                     id
+                }
+            })
+            if (!user) return null
+            return user
+        } catch (error) {
+            throw this.onError('search')
+        }
+    }
+    async searchByEmail (email: string): Promise<ForUserOutput | null> {
+        try {
+            const user = await this.dbConnection.user.findUnique({
+                where: {
+                    email
                 }
             })
             if (!user) return null

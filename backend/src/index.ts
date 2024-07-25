@@ -1,15 +1,19 @@
-import { compositionPrisma } from "@/model";
+
+import { compositionPrisma } from "./model";
 import type { DatabaseModelType, ServerType } from "./types";
+import { createServer } from "./app";
 
 
 interface AppConfig {
     server: ServerType
     port: number
-    model: DatabaseModelType | {}
+    model: DatabaseModelType
 }
 
-const app = async (config: AppConfig) => {
+const app = async ({ server, port, model}: AppConfig) => {
     console.log('Hello, server from Backend!');
+    createServer(model)
+    
 }
 
 (async () => {

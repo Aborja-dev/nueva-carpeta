@@ -29,6 +29,7 @@ model User {
   typeId Int
   events Event[] // un usuario puede organizar varios eventos
   talks  TalkProposal[] // un usuario puede proponer varias charlas
+  passwordHash String
 }
 
 // MODELOS PARA EVENTOS

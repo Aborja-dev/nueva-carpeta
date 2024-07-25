@@ -5,9 +5,10 @@ import { EventModelObject } from '@/model/Event/types';
 import { AdapterError } from "@/utils/error/AdapterError";
 
 
+
 export class EventAdapter implements ForManageEventRepository {
     constructor(
-        private readonly repository: EventRepo
+        private readonly repository: EventRepo,
     ) { }
 
     async insert(input: ForCreateEventController) {
@@ -57,6 +58,8 @@ export class EventAdapter implements ForManageEventRepository {
         }
     }
 }
+
+
 
 const fromModel = {
     type: (type: number): EventTypes => {

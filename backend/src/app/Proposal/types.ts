@@ -13,10 +13,10 @@ export interface ForCreateProposalController {
     title: string,
     abstract: string,
     estimatedDuration: number,
-    status: number,
+    status: ProposalStatus,
     streamed: boolean,
     uniqueCode: string,
-    topics: number[],
+    topics: string[],
     eventId: string,
     candidateId: string
 }

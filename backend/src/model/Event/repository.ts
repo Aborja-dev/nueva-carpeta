@@ -1,7 +1,6 @@
 import { ForInsertEventModel, EventModelObject, ForUpdateEventModel } from '@model/Event/types';
 import { ModelError } from "@/utils/error/ModelError";
 import { PrismaClient } from "@prisma/client";
-import { ForManageEventRepository  } from "@/model/Event/interface";
 
 export class EventRepo {
     constructor(
@@ -140,3 +139,4 @@ export class EventRepo {
         throw new ModelError(`${this.constructor.name} ${where}`, message ?? 'Error', ...args)
     }
 }
+

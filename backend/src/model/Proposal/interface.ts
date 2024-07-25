@@ -1,6 +1,7 @@
 import { ForCreateProposalController, ForUpdateProposalController } from "@/app/Proposal/types";
 
 export interface ForManagerProposalRepository {
+    topics: { name: string, id: number }[]
     insert(input: ForCreateProposalController): Promise<void>;
     update({ id, input }: { id: number, input: Partial<ForUpdateProposalController> }): Promise<void>;
     delete(id: number): Promise<void>;

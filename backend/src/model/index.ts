@@ -43,6 +43,7 @@ export const compositionPrisma = async (): Promise<{
     const eventRepo = new (await import('./Event/repository')).EventRepo(client)
     const userRepo = new (await import('./User/repository')).UserRepo(client)
     const proposalRepo = new (await import('./Proposal/repository')).TalkProposalRepo(client)
+    await proposalRepo.loadTopics()
 
     const repositories = {
         event: new (await import('./Event/adapter')).EventAdapter(eventRepo),
@@ -60,7 +61,7 @@ export const compositionPrisma = async (): Promise<{
 
 
 
-(async () => {
+/* (async () => {
     const { repositories } = await compositionPrisma()
     const event = repositories.event
 
@@ -86,4 +87,4 @@ export const compositionPrisma = async (): Promise<{
         }
     })
     await event.delete('d5c7d216-6cf0-4c62-a42e-28a0a62f1e58')
-})()
+})() */

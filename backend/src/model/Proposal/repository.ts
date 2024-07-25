@@ -4,6 +4,7 @@ import { PrismaClient } from "@prisma/client"
 
 
 export class TalkProposalRepo  {
+    private _topics: { name: string, id: number }[] = []
     constructor(
         private readonly dbConnection: PrismaClient
     ) {}
@@ -157,5 +158,16 @@ export class TalkProposalRepo  {
     private onError(where: string, message?: string, ...args: any) {
         throw new ModelError( `${this.constructor.name} ${where}`, message ?? 'Error' ,...args)
     }
-
+    get topics(): { name: string, id: number }[] {
+        return this._topics
+    }
+    public async loadTopics() {
+        const topics  = await this.dbConnection.topic.findMany({
+            select: {
+                name: true,
+                id: true
+            }
+        })
+        this._topics = topics
+    }
   }

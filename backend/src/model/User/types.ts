@@ -2,6 +2,7 @@ export interface ForInsertUser  {
     name: string;
     email: string;
     typeId: number;
+    passwordHash: string;
 }
 export interface ForUpdateUser {
     name?: string;
@@ -12,4 +13,5 @@ export interface ForUserOutput {
     name: string,
     email: string,
     typeId: number
+    passwordHash: string;
 }

@@ -2,11 +2,12 @@ import { ForCreateUserController, ForUpdateUserController, UserControllerObject 
 
 
 export interface ForManageUserRepository {
-    insert(input: ForCreateUserController): Promise<void>;
+    insert(input: ForCreateUserController): Promise<UserControllerObject['id']>;
     getById(id: string): Promise<UserControllerObject | null>;
     listBy(type: number): Promise<UserControllerObject[]>;
     update({ id, input }: { id: string; input: Partial<ForUpdateUserController> }): Promise<void>;
     delete(id: string): Promise<void>;
     search(id: string): Promise<UserControllerObject | null>;
+    searchByEmail(email: string): Promise<UserControllerObject | null>;
     listAll(): Promise<UserControllerObject[]>;
 }
