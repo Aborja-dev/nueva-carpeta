@@ -67,7 +67,7 @@ const toModel = {
 
 const fromModel = {
     type : (id: number): UserTypes => {
-        const _id = id as keyof typeof UserTypesConst
+        const _id = id - 1 as keyof typeof UserTypesConst
         return UserTypesConst[_id] 
     }
 }

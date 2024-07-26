@@ -3,6 +3,7 @@ import { ForManagerProposalRepository } from "@/model/Proposal/interface";
 import { TalkProposalRepo } from "@/model/Proposal/repository";
 import { ProposalOutput } from "@/model/Proposal/types";
 import { AdapterError } from "@/utils/error/AdapterError";
+import { getIndexFromObject } from "@/utils/helpers";
 
 
 export class ProposalAdapter implements ForManagerProposalRepository {
@@ -27,8 +28,8 @@ export class ProposalAdapter implements ForManagerProposalRepository {
         await this.repository.delete(id)
     }
 
-    async getById(id: number): Promise<ProposalControllerObject | null> {
-        const result = await this.repository.getById(id)
+    async getById(id: number, candidateId: string): Promise<ProposalControllerObject | null> {
+        const result = await this.repository.getById(id, candidateId)
         if (!result) return null
         return this.transform(result)
     }
@@ -60,15 +61,17 @@ const ToModel = {
     topics(topics: string[], topicsInDb: {id: number; name: string}[]): number[] {
         // transforma los topics de string a su id
         return topics.map(topicName => {
-            const topic = topicsInDb.find(topic => topic.name === topicName)
+            const topic = topicsInDb.find(topic => topic.name.toUpperCase() === topicName.toUpperCase())
             if (!topic) throw new AdapterError('ProposalAdapter toModel topics',`topic ${topicName} not found`)
             return topic.id
         })
     },
     statusId(status: ProposalStatus): number {
-        const _id = Object.values(ProposalStatuses).indexOf(status)
-        if (_id === -1) throw new AdapterError('Proposal Adapter status', 'invalid type')
-        return _id + 1
+        try {
+            return getIndexFromObject(ProposalStatuses, status)
+        } catch (error) {
+            throw new AdapterError('Proposal Adapter status', 'invalid type')
+        }
     }
 }
 

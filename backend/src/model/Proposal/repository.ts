@@ -40,11 +40,12 @@ export class TalkProposalRepo  {
         
     }
 
-    async getById (id: number): Promise<ProposalOutput | null> {
+    async getById (id: number, candidateId: string): Promise<ProposalOutput | null> {
         try {
             const proposal = await this.dbConnection.talkProposal.findUnique({
                 where: {
-                    id
+                    id: id,
+                    candidateId: candidateId
                 },
                 include: {
                     topics: {
