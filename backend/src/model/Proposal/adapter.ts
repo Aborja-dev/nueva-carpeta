@@ -21,7 +21,11 @@ export class ProposalAdapter implements ForManagerProposalRepository {
     }
 
     async update({ id, input }: { id: number, input: Partial<ForUpdateProposalController> }): Promise<void> {
-        await this.repository.update(id, input)
+        await this.repository.update(id, {
+            ...input,
+            statusId: input.status ? ToModel.statusId(input.status) : undefined,
+            status: undefined,
+        })
     }
 
     async delete(id: number): Promise<void> {
@@ -39,9 +43,19 @@ export class ProposalAdapter implements ForManagerProposalRepository {
         return result.map((proposal) => this.transform(proposal))
     }
 
+    async listByStatus(status: ProposalStatus): Promise<ProposalControllerObject[]> {
+        const result = await this.repository.listByStatus(ToModel.statusId(status))
+        return result.map((proposal) => this.transform(proposal))
+    }
+
     async filterBy(candidateId: string): Promise<ProposalControllerObject[]> {
         const result = await this.repository.filterBy(candidateId)
         return result.map((proposal) => this.transform(proposal))
+    }
+
+    async searchByEvent(id: string[]): Promise<Pick<ProposalControllerObject, 'id' | 'title'>[]> {
+        const result = await this.repository.searchByEvent(id)
+        return result
     }
 
     private transform (input: ProposalOutput): ProposalControllerObject {

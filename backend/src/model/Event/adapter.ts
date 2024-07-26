@@ -46,6 +46,11 @@ export class EventAdapter implements ForManageEventRepository {
         })
     }
 
+    async listByOrganizer(organizerId: string): Promise<EventControllerObject[]> {
+        const events = await this.repository.listByOrganizer(organizerId)
+        return events.map((event) => this.transform(event))
+    }
+
     async delete(id: string) {
         await this.repository.delete(id)
     }

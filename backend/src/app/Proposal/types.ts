@@ -24,7 +24,7 @@ export interface ForCreateProposalController {
 export interface ForUpdateProposalController {
     abstract: string,
     estimatedDuration: number,
-    status: number,
+    status: ProposalStatus,
     streamed: boolean,
 }
 

@@ -8,4 +8,5 @@ export interface ForManageEventRepository {
     listBy(status: number): Promise<EventControllerObject[]>;
     update(params: { id: string; input: Partial<ForUpdateEventController> }): Promise<void>;
     delete(id: string): Promise<void>;
+    listByOrganizer(organizerId: string): Promise<EventControllerObject[]>
 }

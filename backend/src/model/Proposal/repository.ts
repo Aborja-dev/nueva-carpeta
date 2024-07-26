@@ -144,7 +144,6 @@ export class TalkProposalRepo  {
             throw this.onError('update', error.message, error)
         }
     }
-
     async delete (id: number): Promise<void> {
         try {
             await this.dbConnection.talkProposal.delete({
@@ -154,6 +153,55 @@ export class TalkProposalRepo  {
             })
         } catch (error: any) {
             throw this.onError('delete', error.message, error)
+        }
+    }
+    async listByStatus(status: number): Promise<ProposalOutput[]> {
+        try {
+            return await this.dbConnection.talkProposal.findMany({
+                where: {
+                    statusId: status
+                },
+                include: {
+                    topics: {
+                        select: {
+                            name: true
+                        }
+                    },
+                    candidate: {
+                        select: {
+                            id: true,
+                            name: true
+                        }
+                    },
+                    event: {
+                        select: {
+                            id: true,
+                            name: true
+                        }
+                    }
+                }
+            })
+        } catch (error: any) {
+            throw this.onError('listByStatus', error.message, error)
+        }
+    }
+    // haz un metodo que permita buscar si la propuesta coincide en el evento
+    async searchByEvent(id: string[]): Promise<Pick<ProposalOutput, 'id' | 'title'>[]> {
+        console.log('hola', id);
+        
+        try {
+            const proposal = await this.dbConnection.talkProposal.findMany({
+                where: {
+                    eventId: {in: id}
+                },
+                select: {
+                    id: true,
+                    title: true
+                }
+            })
+            return proposal
+        } catch (error: any) {
+            throw this.onError('getById', error.message, error)
         }
     }
     private onError(where: string, message?: string, ...args: any) {

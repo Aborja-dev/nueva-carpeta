@@ -135,6 +135,31 @@ export class EventRepo {
             throw this.onError('delete', error.message, error)
         }
     } 
+
+    async listByOrganizer(organizerId: string): Promise<EventModelObject[]> {
+        try {
+            const events = await this.dbConnection.event.findMany({
+                where: {
+                    organizers: {
+                        some: {
+                            id: organizerId
+                        }
+                    }
+                },
+                include: {
+                    organizers: {
+                        select: {
+                            name: true,
+                            email: true
+                        }
+                    }
+                }
+            })
+            return events
+        } catch (error: any) {
+            throw this.onError('listByOrganizer', error.message, error)
+        }
+    }
     private onError(where: string, message?: string, ...args: any) {
         throw new ModelError(`${this.constructor.name} ${where}`, message ?? 'Error', ...args)
     }
