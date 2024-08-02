@@ -72,7 +72,7 @@ export class TalkProposalRepo  {
             throw this.onError('getById', error.message, error)
         }
     }
-
+    
     async listAll (): Promise<ProposalOutput[]> {
         try {
             const proposals = await this.dbConnection.talkProposal.findMany({

@@ -1,11 +1,16 @@
-import { AuthService } from "@/app/common/AuthService";
 import { CommonService } from "@/app/service/CommonService";
 import { OrganizerService } from "@/app/service/OrganizerService";
-import { CandidateService } from "@/app/service/UserCandidate";
 import { compositionPrisma } from "@/model";
-import { TalkProposalRepo } from "@/model/Proposal/repository";
 import { DatabaseModelType } from "@/types";
-import { Prisma, PrismaClient } from "@prisma/client";
+
+// crear un servidor en express
+import express from 'express';
+import cors from 'cors';
+import { createProposalRouter } from "@/app/Proposal/Router";
+
+
+
+
 
 const usuarios = [
     {
@@ -90,27 +95,22 @@ const eventos = [
     }
 ];
 export const createServer = async (db: DatabaseModelType) => {
-    const client = new PrismaClient()
-    const pr = new TalkProposalRepo(client)
-    
-    const organizer = new OrganizerService(
-        db.repositories.event,
-        db.repositories.proposal,
-        db.repositories.user
-    )
-    const commonService = new CommonService(
-        db.repositories.user
-    )
 
+    const app = express();
 
-   await organizer.setUserId('7ddb6c33-cd2c-414d-a360-83bc5684a8b7')
-   await organizer.changeProposalStatus([
-    { id: 3, status: 'PRESELECCION' },
-    { id: 4, status: 'PRESELECCION' },
-    { id: 5, status: 'PRESELECCION' },
-])
+    app.use(express.json());
+    app.use(cors());
+    app.use('/api/proposals',createProposalRouter({
+        eventRepo: db.repositories.event,
+        proposalRepo: db.repositories.proposal,
+        userRepo: db.repositories.user
+    }));
+    app.get('/api/organizers', async (req, res) => {
+        return res.json({message: 'hello'})
+    })
+    app.listen(3000, () => console.log('Server running on port 3000'));
 }
-    
+
 
 (async () => {
     createServer(await compositionPrisma())

@@ -32,4 +32,10 @@ export class CommonService {
             token: AuthService.generateToken({ id: user.id })
         }
     }
+
+    async checkUser(userId: string): Promise<string | null> {
+        const user = await this.userRepo.getById(userId)
+        if (!user) return null
+        return user.id
+    }
 }

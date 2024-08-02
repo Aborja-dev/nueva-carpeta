@@ -1,3 +1,4 @@
+import CreateEventSchema from "@/app/Event/Schema"
 import { ForCreateEventController } from "@/app/Event/types"
 import { ProposalStatus } from "@/app/Proposal/types"
 import { ForManageEventRepository } from "@/model/Event/interface"
@@ -14,6 +15,7 @@ export class OrganizerService {
         private readonly userRepo: ForManageUserRepository
     ) { }
     createEvent = async (input: ForCreateEventController) => {
+        CreateEventSchema.parse(input)
         await this.eventRepo.insert(input)
     }
     getMyEvent = async (id: string) => {

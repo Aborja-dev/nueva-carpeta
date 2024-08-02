@@ -1,9 +1,10 @@
 import { CreateProposalSchema } from "@/app/Proposal/schema";
-import { ForCreateProposalController } from "@/app/Proposal/types";
+import { ForCreateProposalController, ForUpdateProposalController } from "@/app/Proposal/types";
 import { ForManageEventRepository } from "@/model/Event/interface";
 import { ForManagerProposalRepository } from "@/model/Proposal/interface";
 import { ForManageUserRepository } from "@/model/User/interface";
 import { CustomError } from "@/utils/error/ServiceError";
+
 export class CandidateService {
     private _userId: string | null = null 
     constructor(
@@ -24,7 +25,15 @@ export class CandidateService {
     }
     getMyProposals = async () => {
         if (!this._userId) throw new CustomError({where: 'candidate getMyProposals', type: 'ServiceError', message: 'user not found or not exists'})
-        return await this.proposalRepo.filterBy(this._userId as string)
+        const proposals = await this.proposalRepo.filterBy(this._userId as string)
+        return proposals.map(proposal => ({
+            id: proposal.id,
+            title: proposal.title,
+            topics: proposal.topics,
+            candidate: proposal.candidate.name,
+            event: proposal.event.name,
+            status: proposal.status
+        }))
     }
     checkMyProposal = async (id: number) => {
         if (!this._userId) throw new CustomError({where: 'candidate checkMyProposal', type: 'ServiceError', message: 'user not found or not exists'})
@@ -33,6 +42,16 @@ export class CandidateService {
     setUserId = async (value: string) => {
         this._userId = await this.checkUser(value)
     }
+    update = async (id: number, input: Partial<ForUpdateProposalController>) => {
+        const { abstract, streamed } = input
+        if (!this._userId) throw new CustomError({where: 'candidate update', type: 'ServiceError', message: 'user not found or not exists'})
+        const proposal = await this.proposalRepo.getById(id, this._userId as string)
+        const belongsToCandidate = proposal?.candidate.id === this._userId
+        if(!belongsToCandidate) throw new CustomError({where: 'candidate update', type: 'ServiceError', message: 'proposal does not belong to user'})
+        await this.proposalRepo.update({id, input: {abstract, streamed}})
+
+    }
+
     async checkUser(value: string) {
         const user = await this.userRepo.search(value)
         if (!user) throw new CustomError({where: 'candidate checkUser', type: 'BadRequest', message: 'user not found'})
