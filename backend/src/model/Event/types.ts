@@ -12,6 +12,7 @@ export interface EventModelObject {
     location?: string | null;
     timezone: string;
     organizers: Array<{
+        id: string;
         name: string;
         email: string;
       }> | string[];

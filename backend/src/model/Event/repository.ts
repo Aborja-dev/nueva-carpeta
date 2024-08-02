@@ -54,6 +54,7 @@ export class EventRepo {
                 include: {
                     organizers: {
                         select: {
+                            id: true,
                             name: true,
                             email: true
                         }
@@ -99,6 +100,7 @@ export class EventRepo {
                 include: {
                     organizers: {
                         select: {
+                            id: true,
                             name: true,
                             email: true
                         }

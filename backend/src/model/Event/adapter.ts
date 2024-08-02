@@ -3,6 +3,7 @@ import { EventControllerObject, EventStatuses, EventStatusesObj, EventTypes, Eve
 import { EventRepo } from "@/model/Event/repository";
 import { EventModelObject } from '@/model/Event/types';
 import { AdapterError } from "@/utils/error/AdapterError";
+import { getIndexFromObject } from '@/utils/helpers';
 
 
 
@@ -59,7 +60,7 @@ export class EventAdapter implements ForManageEventRepository {
         return {
             ...event,
             type: fromModel.type(event.typeId),
-            status: fromModel.status(event.statusId)
+            status: fromModel.status(event.statusId),
         }
     }
 }
@@ -89,5 +90,5 @@ const toModel = {
         if (isNaN(date.getTime())) throw new AdapterError('Event Adapter startingDate', 'invalid date format', { value: datestring })
         return date
     },
-    typeId: (type: number): number => type + 1
+    typeId: (type: EventTypes): number => getIndexFromObject(EventTypesObj, type)
 }

@@ -2,61 +2,32 @@ import { EventControllerObject, ForCreateEventController } from "@/app/Event/typ
 import { OrganizerService } from "@/app/service/OrganizerService";
 import { Request, Response } from "express";
 
-class EventosController {
-    constructor(
-        private readonly organizer: OrganizerService
-    ) {}
-    async crearEvento(req: Request<{}, ForCreateEventController, ForCreateEventController>, res: Response) {
-        const input = req.body;
-        try {
-            await this.organizer.createEvent(input);
-            // Lógica para crear un evento
-            res.status(201).send('Evento creado');
-        } catch (error) {
-            res.status(500).send('Error al crear evento');
-        }
-    }
+import { Router } from "express";
 
-    async obtenerInformacionEvento(req: Request<unknown, EventControllerObject, {}>, res: Response) {
-        const {eventId} = req.params as {eventId: string};
-        const userId = req.query.user as string;
+const router = Router();
+export const createEventRouter = (repositorioes) => {
+    const organizer = new OrganizerService(repositorioes.eventRepo, repositorioes.proposalRepo, repositorioes.userRepo);
+    router.post('/', async (req: Request<{}, {}, ForCreateEventController>, res: Response) => {
         try {
-            this.organizer.setUserId(userId);
-            const event = await this.organizer.getMyEvent(eventId);
-            // Lógica para obtener información de un evento
-            res.status(200).json(event);
-        } catch (error) {
-            res.status(500).send('Error al obtener información del evento');
+            await organizer.createEvent(req.body);
+            return res.status(201).json({ message: 'event created' });
+        } catch (error: any) {
+            console.log(error);
+            return res.status(400).json({ message: error.message })   
         }
-    }
+    });
 
-    async obtenerEventosCreados(req, res) {
+    router.get('/:id', async (req: Request, res: Response) => {
+        const id = req.params.id
+        const userId = req.query.userId as string
         try {
-            const { id } = req.params;
-            // Lógica para obtener eventos creados por un organizador
-            res.status(200).send(`Eventos creados por el organizador ${id}`);
-        } catch (error) {
-            res.status(500).send('Error al obtener eventos creados');
+            await organizer.setUserId(userId);
+            const events = await organizer.getMyEvent(id);
+            return res.status(200).json(events);
+        } catch (error: any) {
+            console.log(error);
+            return res.status(400).json({ message: error.message })
         }
-    }
-
-    async obtenerPropuestasParaEvento(req, res) {
-        try {
-            const { id } = req.params;
-            // Lógica para obtener propuestas de charlas para un evento
-            res.status(200).send(`Propuestas de charlas para el evento ${id}`);
-        } catch (error) {
-            res.status(500).send('Error al obtener propuestas de charlas');
-        }
-    }
-
-    async obtenerFormularioPropuesta(req, res) {
-        try {
-            const { id } = req.params;
-            // Lógica para obtener el formulario de propuesta de charla
-            res.status(200).send(`Formulario de propuesta de charla para el evento ${id}`);
-        } catch (error) {
-            res.status(500).send('Error al obtener formulario de propuesta');
-        }
-    }
-}
+    })
+    return router
+};

@@ -97,7 +97,7 @@ model Topic {
 
 model TalkProposal {
   id                Int                     @id @default(autoincrement())
-  event             Event                   @relation(fields: [eventId], references: [id])
+  event             Event                   @relation(fields: [eventId], references: [id]) // una propuesta solo puede tener un evento
   eventId           String
   candidate         User                    @relation(fields: [candidateId], references: [id]) // una propuesta solo puede tener un candidato
   candidateId       String

@@ -49,7 +49,6 @@ export class CandidateService {
         const belongsToCandidate = proposal?.candidate.id === this._userId
         if(!belongsToCandidate) throw new CustomError({where: 'candidate update', type: 'ServiceError', message: 'proposal does not belong to user'})
         await this.proposalRepo.update({id, input: {abstract, streamed}})
-
     }
 
     async checkUser(value: string) {

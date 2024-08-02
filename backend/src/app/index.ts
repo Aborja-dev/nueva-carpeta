@@ -7,6 +7,7 @@ import { DatabaseModelType } from "@/types";
 import express from 'express';
 import cors from 'cors';
 import { createProposalRouter } from "@/app/Proposal/Router";
+import { createEventRouter } from "@/app/Event/Controller";
 
 
 
@@ -105,9 +106,11 @@ export const createServer = async (db: DatabaseModelType) => {
         proposalRepo: db.repositories.proposal,
         userRepo: db.repositories.user
     }));
-    app.get('/api/organizers', async (req, res) => {
-        return res.json({message: 'hello'})
-    })
+    app.use('/api/events', createEventRouter({
+        eventRepo: db.repositories.event,
+        proposalRepo: db.repositories.proposal,
+        userRepo: db.repositories.user
+    }))
     app.listen(3000, () => console.log('Server running on port 3000'));
 }
 

@@ -16,6 +16,7 @@ export type EventStatuses = typeof EventStatusesObj[keyof typeof EventStatusesOb
 
 
 export interface ForCreateEventController {
+    
     name: string;
     description: string;
     organizers: string[];
@@ -55,6 +56,7 @@ export interface EventControllerObject {
     location?: string | null;
     timezone: string;
     organizers: Array<{
+        id: string;
         name: string;
         email: string;
     }> | string[];
