@@ -187,8 +187,6 @@ export class TalkProposalRepo  {
     }
     // haz un metodo que permita buscar si la propuesta coincide en el evento
     async searchByEvent(id: string[]): Promise<Pick<ProposalOutput, 'id' | 'title'>[]> {
-        console.log('hola', id);
-        
         try {
             const proposal = await this.dbConnection.talkProposal.findMany({
                 where: {

@@ -1,6 +1,3 @@
-import { CommonService } from "@/app/service/CommonService";
-import { OrganizerService } from "@/app/service/OrganizerService";
-import { compositionPrisma } from "@/model";
 import { DatabaseModelType } from "@/types";
 
 // crear un servidor en express
@@ -8,9 +5,7 @@ import express from 'express';
 import cors from 'cors';
 import { createProposalRouter } from "@/app/Proposal/Router";
 import { createEventRouter } from "@/app/Event/Controller";
-
-
-
+import { createUserRouter } from "@/app/User/Router";
 
 
 const usuarios = [
@@ -111,10 +106,8 @@ export const createServer = async (db: DatabaseModelType) => {
         proposalRepo: db.repositories.proposal,
         userRepo: db.repositories.user
     }))
-    app.listen(3000, () => console.log('Server running on port 3000'));
+    app.use('/api/users', createUserRouter({
+        userRepo: db.repositories.user
+    }))
+    return app
 }
-
-
-(async () => {
-    createServer(await compositionPrisma())
-})()
