@@ -1,9 +1,11 @@
+import LoginPage from "./pages/login/page"
+
 function App() {
 
   return (
     <>
-      <main className="container">
-        <h1 className="text-3xl font-bold underline">Hello world!</h1>
+      <main className="mx-auto w-3/6 pt-10">
+        <LoginPage />
       </main>
     </>
   )
