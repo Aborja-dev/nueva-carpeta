@@ -24,7 +24,10 @@ const LoginForm: React.FC<Props> = ({onSubmit}) => {
                 <label htmlFor="password">Password</label>
                 <input name='password' type="password" />
             </fieldset>
+            <div className='flex justify-between gap-5'>
             <button type="submit">Login</button>
+            <button type="submit">Register</button>
+            </div>
         </form>
     )
 }
