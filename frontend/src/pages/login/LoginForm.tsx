@@ -1,9 +1,10 @@
 import React from 'react'
 import { LoginFormData } from '../../types/types'
+import { Link } from 'react-router-dom'
 interface Props {
     onSubmit: (values: LoginFormData) => void
 }
-const LoginForm: React.FC<Props> = ({onSubmit}) => {
+const LoginForm: React.FC<Props> = ({ onSubmit }) => {
     const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         const formData = new FormData(event.currentTarget)
@@ -15,6 +16,8 @@ const LoginForm: React.FC<Props> = ({onSubmit}) => {
         onSubmit(values)
     }
     return (
+        <>
+
         <form onSubmit={submitHandler}>
             <fieldset>
                 <label htmlFor="username">Email</label>
@@ -25,10 +28,13 @@ const LoginForm: React.FC<Props> = ({onSubmit}) => {
                 <input name='password' type="password" />
             </fieldset>
             <div className='flex justify-between gap-5'>
-            <button type="submit">Login</button>
-            <button type="submit">Register</button>
+                <button type="submit">Login</button>
             </div>
         </form>
+            <button>
+                <Link to={'/register'}>Register</Link>
+            </button>
+        </>
     )
 }
 

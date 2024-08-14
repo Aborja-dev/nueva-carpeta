@@ -9,6 +9,15 @@ const login = async (username: string, password: string) => {
         .then(response => response.json())
 };
 
+const register = async (name: string, email: string, password: string) => {
+    const request = new FetchApiRequest(baseUrl)
+    return request
+        .post({ name, email, password })
+        .fetch('users/register')
+        .then((res)=> res.status === 201 ? res.json() : 'Ha ocurrido un error'); 
+};
+
 export const CommonRequest = {
-    login
+    login,
+    register
 }

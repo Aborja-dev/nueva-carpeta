@@ -31,4 +31,5 @@ export class FetchApiRequest {
         const url = this.createPath(path);
         return fetch(url, this.config);
     }
+    
 }

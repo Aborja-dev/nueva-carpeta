@@ -12,7 +12,7 @@ const LoginPage = () => {
       }
     }
   return (
-    <div>
+    <div className="mx-auto w-3/6 pt-10">
       <h1>Login</h1>
       <LoginForm onSubmit={submitHandler} />
     </div>
