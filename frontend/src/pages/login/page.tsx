@@ -1,10 +1,15 @@
 import { LoginFormData } from '../../types/types'
 import LoginForm from './LoginForm'
 import { CommonRequest } from '../../services/api_gateway'
+import { saveSesion, saveToken } from '../../services/service'
 
 const LoginPage = () => {
-    const submitHandler = (values: LoginFormData) => {
-      CommonRequest.login(values.username, values.password)
+    const submitHandler = async (values: LoginFormData) => {
+      const {token, ...sesion} = await CommonRequest.login(values.username, values.password)
+      if (sesion) {
+        saveSesion(sesion)
+        saveToken(token)
+      }
     }
   return (
     <div>
