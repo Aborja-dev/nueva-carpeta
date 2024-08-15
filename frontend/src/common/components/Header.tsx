@@ -1,6 +1,6 @@
 import React from 'react'
 import Icon from './Icon'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { deleteSesion } from '../../services/service'
 
 export interface HeaderProps {
@@ -9,8 +9,10 @@ export interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ name, avatar }) => {
+    const navigate = useNavigate()
     const onLogout = () => {
         deleteSesion()
+        navigate('/')
     }
     return (
         <header className='flex py-4 shadow-lg bg-[#0f1031]'>

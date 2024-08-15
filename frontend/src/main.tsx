@@ -11,10 +11,12 @@ import App from './App';
 import LoginPage from './pages/login/page';
 import RegisterPage from './pages/register/page';
 import DashboardPage from './pages/dashboard/page';
+import MainLayout, { mainLoader } from './common/layouts/main_layout';
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <DashboardPage/>,
+    element: <MainLayout />,
+    loader: mainLoader,
   },
   {
     path: '/login',
@@ -23,6 +25,17 @@ const router = createBrowserRouter([
   {
     path: '/register',
     element: <RegisterPage />
+  },
+  {
+    path: '/dashboard',
+    element: <MainLayout />,
+    loader: mainLoader,
+    children: [
+      {
+        path: '',
+        element: <DashboardPage />
+      }
+    ]
   }
 ]);
 ReactDOM.createRoot(document.getElementById('root')!).render(

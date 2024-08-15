@@ -57,8 +57,11 @@ const RegisterPage: React.FC = () => {
           <label htmlFor="confirmPassword">Confirm Password</label>
           <input name="confirmPassword" type="text" />
         </fieldset>
-        <button type="submit">Register</button>
+        <div className='flex gap-'>
+        <button type="submit">Crear usuario</button>
+        </div>
       </form>
+        <button onClick={() => navigate(-1)}>Cancelar</button>
     </div>
   )
 }
