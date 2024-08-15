@@ -7,11 +7,12 @@ import {
 
 import './index.css'
 import './styles/pico.css'
-import App from './App';
+
 import LoginPage from './pages/login/page';
 import RegisterPage from './pages/register/page';
 import DashboardPage from './pages/dashboard/page';
-import MainLayout, { mainLoader } from './common/layouts/main_layout';
+import MainLayout from './common/layouts/main_layout';
+import { mainLoader } from './pages/loader';
 const router = createBrowserRouter([
   {
     path: "/",

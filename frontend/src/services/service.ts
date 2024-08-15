@@ -1,9 +1,5 @@
-export interface UserSesion {
-    id: string,
-    name: string,
-    type: "ADMIN" | "USER" | "ORGANIZER" | "CANDIDATE",
-    token: string
-}
+import { UserSesion } from "../types/types"
+
 
 export const saveSesion = (sesion: Omit<UserSesion, "token">) => {
     const sesionString = JSON.stringify(sesion)
