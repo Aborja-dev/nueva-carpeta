@@ -12,6 +12,7 @@ export const saveSesion = (sesion: Omit<UserSesion, "token">) => {
 
 export const deleteSesion = () => {
     localStorage.removeItem("user_sesion")
+    localStorage.removeItem("user_token")
 }
 
 export const getSesion = (): UserSesion | null => {

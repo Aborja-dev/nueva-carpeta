@@ -10,10 +10,11 @@ import './styles/pico.css'
 import App from './App';
 import LoginPage from './pages/login/page';
 import RegisterPage from './pages/register/page';
+import DashboardPage from './pages/dashboard/page';
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App/>,
+    element: <DashboardPage/>,
   },
   {
     path: '/login',
