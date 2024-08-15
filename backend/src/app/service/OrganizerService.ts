@@ -35,12 +35,10 @@ export class OrganizerService {
     changeProposalStatus = async (listToUpdate: { id: number, status: ProposalStatus }[]) => {
         // revisa si el servicio tiene el id del usuario
         if (!this._events) throw new CustomError({ where: 'organizer changeProposalStatus', type: 'ServiceError', message: 'user not found or not exists' })
-        // busca las propuestas asociadas a los eventos del usuario
-        const proposalList = await this.proposalRepo.searchByEvent(this._events)
         // revisa si las propuestas existen y pertenecen a algun evento del usuario
         const updatePromise = listToUpdate.map((updateItem) => {
             // busca el id de la propuesta que coincida con la lista
-            const isProposalInList = proposalList.some(proposal => proposal.id === Number(updateItem.id))
+            const isProposalInList = this._proposals.some(proposal => proposal.id === Number(updateItem.id))
             if (isProposalInList) {
                 return this.proposalRepo.update({ id: Number(updateItem.id), input: { status: updateItem.status } })
             }

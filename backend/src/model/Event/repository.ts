@@ -38,7 +38,6 @@ export class EventRepo {
                     }
                 }
             })
-            console.log(event);
             
         } catch (error: any) {
             this.onError('insert', error.message, error)
