@@ -22,7 +22,6 @@ export class ProposalController {
     listAll: Handler = async (req: Request<any, ProposalControllerObject[], { userId: string }>, res) => {
         const { userId } = req.params as { userId: string }
         const userInfo = req.app.locals.user as {id: string, type: string}
-        console.log(userInfo);
         const role = userInfo.type.toLowerCase()
         try {
             if (role === 'candidate') {

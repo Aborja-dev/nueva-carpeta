@@ -40,22 +40,3 @@ export const createProposalRouter = (repos: any) => {
    return router;
 
 }
-
-/* async (req: Request, res) => {
-       const input = req.body
-       const userId = req.query.userId as string
-       const role = req.query.role as string
-       try {
-           if (role === 'candidate') {
-               await this.candidate.setUserId(userId)
-               await this.candidate.update(Number(req.params.id), input)
-               return res.status(200).json({ message: 'proposal updated' })
-           }
-       } catch (error: any) {
-           return res.status(400).json({ message: error.message })
-       }
-   } */
-// Inicializar el controlador
-// Definir rutas
-
-// Exportar el router
