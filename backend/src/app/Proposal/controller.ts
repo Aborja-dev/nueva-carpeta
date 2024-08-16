@@ -40,7 +40,7 @@ export class ProposalController {
         }
     }
     getOne: Handler = async (req: Request, res) => {
-        const userId = req.query.userId as string
+        const userId = req.app.locals.user.id
         try {
             await this.candidate.setUserId(userId)
             const proposal = await this.candidate.checkMyProposal(Number(req.params.id))

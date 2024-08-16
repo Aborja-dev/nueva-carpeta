@@ -1,5 +1,5 @@
 import {  FetchApiRequest, FetchApiWithToken } from "../common/class/FetchApi";
-import { Proposal } from "../types/types";
+import { Proposal, ProposalDetail } from "../types/types";
 import { getToken } from "./service";
 
 const baseUrl = 'http://localhost:3000/api';
@@ -19,6 +19,12 @@ const register = async (name: string, email: string, password: string) => {
         .then((res)=> res.status === 201 ? res.json() : 'Ha ocurrido un error'); 
 };
 
+const createAuthApiRequest = (): FetchApiWithToken | string => {
+    const token = getToken()
+    if (!token) return 'Ha ocurrido un error'
+    return new FetchApiWithToken(baseUrl, token)
+}
+
 const getAllProposals = async (userId: string): Promise<string | Proposal[]> => {
     const token = getToken()
     if (!token) return 'Ha ocurrido un error'
@@ -29,11 +35,21 @@ const getAllProposals = async (userId: string): Promise<string | Proposal[]> => 
         .then((res)=> res.status === 200 ? res.json() : 'Ha ocurrido un error')
 }
 
+const getProposalDetail = async (id: string): Promise<string | ProposalDetail> => {
+    const request = createAuthApiRequest()
+    if (typeof request === 'string') return request
+    return request
+        .get()
+        .fetch(`proposals/${id}`)
+        .then((res)=> res.status === 200 ? res.json() : 'Ha ocurrido un error')
+}
+
 export const CommonRequest = {
     login,
     register
 }
 
 export const CandidateRequest = {
-    getAll: getAllProposals
+    getAll: getAllProposals,
+    getdetail: getProposalDetail
 }

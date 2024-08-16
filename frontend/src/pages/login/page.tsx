@@ -11,7 +11,7 @@ const LoginPage = () => {
       if (sesion) {
         saveSesion(sesion)
         saveToken(token)
-        navigate('/dashboard')
+        navigate('/')
       }
     }
   return (
