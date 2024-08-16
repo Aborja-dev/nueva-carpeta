@@ -7,7 +7,9 @@ const DashboardPage = () => {
         <>
             <div className='mx-auto w-5/6'>
                 <h1 className='text-3xl text-center py-4'>Dashboard</h1>
-                <Link to={'/create'}>Crear propuesta</Link>
+                <button>
+                    <Link to={'/create'}>Crear propuesta</Link>
+                </button>
                 <table>
                     <thead>
                         <tr>

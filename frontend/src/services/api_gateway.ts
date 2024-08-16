@@ -44,6 +44,28 @@ const getProposalDetail = async (id: string): Promise<string | ProposalDetail> =
         .then((res)=> res.status === 200 ? res.json() : 'Ha ocurrido un error')
 }
 
+const createProposal = async (input: any) => {
+    const request = createAuthApiRequest()
+    if (typeof request === 'string') return request
+    return request
+        .post(input)
+        .fetch('proposals')
+        .then((res)=> res.status === 201 ? res.json() : 'Ha ocurrido un error')
+
+}
+
+/* export interface ForCreateProposalController {
+    title: string,
+    abstract: string,
+    estimatedDuration: number,
+    status: ProposalStatus,
+    streamed: boolean,
+    uniqueCode: string,
+    topics: string[],
+    eventId: string,
+    candidateId: string
+} */
+
 export const CommonRequest = {
     login,
     register
@@ -51,5 +73,6 @@ export const CommonRequest = {
 
 export const CandidateRequest = {
     getAll: getAllProposals,
-    getdetail: getProposalDetail
+    getdetail: getProposalDetail,
+    createOne: createProposal
 }
