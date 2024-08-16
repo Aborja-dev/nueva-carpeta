@@ -2,9 +2,9 @@ import { redirect } from "react-router-dom"
 import { getSesion } from "../services/service"
 import { UserSesion } from "../types/types"
 
-const userSesionPermision = {
+const hasSesionPermision = {
     allow: (sesion: UserSesion | null) :boolean => {
-        if (sesion?.name) return true
+        if (sesion) return true
         return false
     },
     redirect: '/login'
@@ -13,9 +13,9 @@ const userSesionPermision = {
 export const mainLoader = () => {
     // buscar si existe una sesion activa
     const sesion = getSesion()
-    const isAllow = userSesionPermision.allow(sesion)
+    const isAllow = hasSesionPermision.allow(sesion)
     if (!isAllow) {
-        return redirect(userSesionPermision.redirect)
+        return redirect(hasSesionPermision.redirect)
     }
     return sesion
 }

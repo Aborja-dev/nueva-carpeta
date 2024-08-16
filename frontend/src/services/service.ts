@@ -27,3 +27,4 @@ export const getToken = (): string | null => {
     if (!token) return null
     return token
 }
+

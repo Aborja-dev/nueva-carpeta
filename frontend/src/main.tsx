@@ -13,6 +13,7 @@ import RegisterPage from './pages/register/page';
 import DashboardPage from './pages/dashboard/page';
 import MainLayout from './common/layouts/main_layout';
 import { mainLoader } from './pages/loader';
+import { dashboardLoader } from './pages/dashboard/loader';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -34,6 +35,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '',
+        loader: dashboardLoader,
         element: <DashboardPage />
       }
     ]

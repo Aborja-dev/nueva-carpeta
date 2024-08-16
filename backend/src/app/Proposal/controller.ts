@@ -21,7 +21,7 @@ export class ProposalController {
     }
     listAll: Handler = async (req: Request<any, ProposalControllerObject[], { userId: string }>, res) => {
         const { userId } = req.params as { userId: string }
-        const role = req.query.role as string
+        const role = 'candidate'
         try {
             if (role === 'candidate') {
                 await this.candidate.setUserId(userId)
