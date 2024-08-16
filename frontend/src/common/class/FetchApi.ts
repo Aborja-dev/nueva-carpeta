@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export class FetchApiRequest {
     config!: any
     _url!: string
@@ -12,7 +13,7 @@ export class FetchApiRequest {
                 'Content-Type': 'application/json'
             }
         }
-        return new FetchApiRequest(this._url, this.config);
+        return this;
     }
     public post <T>(body: T) {
         this.config = {
@@ -22,9 +23,9 @@ export class FetchApiRequest {
             },
             body: JSON.stringify(body)
         }
-        return new FetchApiRequest(this._url, this.config);
+        return this;
     }
-    private createPath (path: string) {
+    protected createPath (path: string) {
         return `${this._url}/${path}`
     }
     public fetch (path: string) {
@@ -32,4 +33,23 @@ export class FetchApiRequest {
         return fetch(url, this.config);
     }
     
+}
+
+export class FetchApiWithToken extends FetchApiRequest {
+    token!: string
+    constructor (url: string, token: string, config?:any) {
+        super(url, config);
+        this.token = token;
+    }
+
+    public fetch (path: string) {
+        const url = this.createPath(path);
+        return fetch(url, {
+            ...this.config,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.token}`
+            }
+        });
+    }
 }

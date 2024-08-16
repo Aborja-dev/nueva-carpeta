@@ -6,6 +6,7 @@ import cors from 'cors';
 import { createProposalRouter } from "@/app/Proposal/Router";
 import { createEventRouter } from "@/app/Event/Controller";
 import { createUserRouter } from "@/app/User/Router";
+import { authMiddeleware } from "@/app/common/AuthMiddleware";
 
 
 const usuarios = [
@@ -96,7 +97,7 @@ export const createServer = async (db: DatabaseModelType) => {
 
     app.use(express.json());
     app.use(cors());
-    app.use('/api/proposals',createProposalRouter({
+    app.use('/api/proposals',authMiddeleware, createProposalRouter({
         eventRepo: db.repositories.event,
         proposalRepo: db.repositories.proposal,
         userRepo: db.repositories.user

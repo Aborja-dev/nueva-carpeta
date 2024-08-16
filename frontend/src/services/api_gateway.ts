@@ -1,5 +1,6 @@
-import {  FetchApiRequest } from "../common/class/FetchApi";
+import {  FetchApiRequest, FetchApiWithToken } from "../common/class/FetchApi";
 import { Proposal } from "../types/types";
+import { getToken } from "./service";
 
 const baseUrl = 'http://localhost:3000/api';
 const login = async (username: string, password: string) => {
@@ -19,7 +20,9 @@ const register = async (name: string, email: string, password: string) => {
 };
 
 const getAllProposals = async (userId: string): Promise<string | Proposal[]> => {
-    const request = new FetchApiRequest(baseUrl)
+    const token = getToken()
+    if (!token) return 'Ha ocurrido un error'
+    const request = new FetchApiWithToken(baseUrl, token)
     return request
         .get()
         .fetch(`proposals/user/${userId}`)

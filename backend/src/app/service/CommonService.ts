@@ -29,7 +29,7 @@ export class CommonService {
             id: user.id,
             name: user.name,
             type: user.type,
-            token: AuthService.generateToken({ id: user.id })
+            token: AuthService.generateToken({ id: user.id, type: user.type })
         }
     }
 
