@@ -35,6 +35,17 @@ export class FetchApiRequest {
         }
         return this;
     }
+
+    public patch <T>(body: T) {
+        this.config = {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        }
+        return this;
+    }
     protected createPath (path: string) {
         return `${this._url}/${path}`
     }

@@ -36,7 +36,7 @@ export const createProposalRouter = (repos: any) => {
          return res.status(400).json({ message: error })
       }
    });
-   router.put('/:id', controller.update);
+   router.patch('/:id', controller.update);
    router.delete('/:id', controller.delete);
    return router;
 

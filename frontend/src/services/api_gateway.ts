@@ -19,6 +19,15 @@ const register = async (name: string, email: string, password: string) => {
         .then((res)=> res.status === 201 ? res.json() : 'Ha ocurrido un error'); 
 };
 
+const updateData = async (id, body) => {
+    const request = createAuthApiRequest()
+    if (typeof request === 'string') return request
+    return request
+        .patch(body)
+        .fetch(`proposals/${id}`)
+        .then((res)=> res.status === 200 ? res.json() : 'Ha ocurrido un error')
+}
+
 const getData = async (): Promise<string | {
     eventStatus: any
     eventTypes: any
@@ -87,5 +96,6 @@ export const CandidateRequest = {
     getAll: getAllProposals,
     getdetail: getProposalDetail,
     createOne: createProposal,
-    deleteOne: deleteProposal
+    deleteOne: deleteProposal,
+    update: updateData
 }

@@ -51,10 +51,10 @@ export class ProposalController {
     }
     update: Handler = async (req: Request, res) => {
         const input = req.body
-        const userId = req.query.userId as string
-        const role = req.query.role as string
+        const userId = req.app.locals.user.id as string
+        const role = req.app.locals.user.type as string
         try {
-            if (role === 'candidate') {
+            if (role === 'CANDIDATE') {
                 await this.candidate.setUserId(userId)
                 await this.candidate.update(Number(req.params.id), input)
                 return res.status(200).json({ message: 'proposal updated' })
