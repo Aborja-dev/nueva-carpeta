@@ -110,5 +110,16 @@ export const createServer = async (db: DatabaseModelType) => {
     app.use('/api/users', createUserRouter({
         userRepo: db.repositories.user
     }))
+    app.use('/api/data', async (req, res) => {
+        const {event, eventStatus, eventTypes, proposalsStatus} = db.manager.data
+        const topics = db.repositories.proposal.topics
+        res.status(200).json({
+            event,
+            eventStatus,
+            eventTypes,
+            proposalsStatus,
+            topics
+        })
+    })
     return app
 }
