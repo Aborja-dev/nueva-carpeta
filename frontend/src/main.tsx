@@ -17,6 +17,7 @@ import { dashboardLoader } from './pages/dashboard/loader';
 import { proposalDetailLoader } from './pages/detail/loader';
 import DetailPage from './pages/detail/page';
 import CreateProposalPage from './pages/create/page';
+import { createLoader } from './pages/create/loader';
 const router = createBrowserRouter([
   {
     path: '/login',
@@ -43,6 +44,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/create',
+        loader: createLoader,
         element: <CreateProposalPage />
       }
     ]

@@ -1,3 +1,5 @@
+import { Select } from "../../common/components/Select";
+
 export const proposalFormDataExample: ProposalFormData = {
     title: 'Creando un buscador de texto con React',
     abstract: 'En este taller, vamos a ver c mo crear un buscador de texto utilizando React. Utilizaremos Context API para manejar el estado de la aplicaci n. Al final, vamos a tener una aplicaci n que pueda buscar texto en una lista de palabras.',
@@ -11,9 +13,17 @@ export interface ProposalFormData {
     estimatedDuration: number;
     streamed: boolean;
     topics: string[];
+    event: string
 }
-
-export const CreateForm = ({onSubmit}: {onSubmit: (values: ProposalFormData) => void}) => {
+interface SelectOption {
+    value: string
+    id: number | string
+}
+export const CreateForm = ({ onSubmit, events, topics }: {
+    onSubmit: (values: ProposalFormData) => void,
+    events: SelectOption[],
+    topics: SelectOption[]
+}) => {
     const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         const formData = new FormData(event.currentTarget)
@@ -23,7 +33,8 @@ export const CreateForm = ({onSubmit}: {onSubmit: (values: ProposalFormData) => 
             abstract: entries.abstract as string,
             estimatedDuration: Number(entries.estimatedDuration),
             streamed: entries.streamed === 'true',
-            topics: [entries.topics as string]
+            topics: [entries.topics as string],
+            event: entries.event as string
         }
         onSubmit(values)
 
@@ -38,10 +49,20 @@ export const CreateForm = ({onSubmit}: {onSubmit: (values: ProposalFormData) => 
                 <label htmlFor="abstract">Abstract</label>
                 <textarea id="abstract" name="abstract" rows={5}></textarea>
             </fieldset>
-            <fieldset>
-                <label htmlFor="estimatedDuration">Estimated Duration</label>
-                <input type="number" id="estimatedDuration" name="estimatedDuration" />
-            </fieldset>
+            <div className="flex gap-4">
+                <fieldset>
+                    <label htmlFor="estimatedDuration">Estimated Duration</label>
+                    <input type="number" id="estimatedDuration" name="estimatedDuration" />
+                </fieldset>
+                <fieldset>
+                    <label htmlFor="event">Evento</label>
+                    <Select name="event" options={events} />
+                </fieldset>
+                <fieldset>
+                    <label htmlFor="topics">Topics</label>
+                    <Select name="topics" options={topics} />
+                </fieldset>
+            </div>
             <fieldset>
                 <label htmlFor="streamed">Streamed</label>
                 <input type="radio" id="yes-streamed" name="streamed" value="true" />
@@ -49,10 +70,7 @@ export const CreateForm = ({onSubmit}: {onSubmit: (values: ProposalFormData) => 
                 <input type="radio" id="no-streamed" name="streamed" value="false" />
                 <label htmlFor="no-streamed">No</label>
             </fieldset>
-            <fieldset>
-                <label htmlFor="topics">Topics</label>
-                <input type="text" id="topics" name="topics" />
-            </fieldset>
+
             <button>Submit</button>
         </form>
     )
