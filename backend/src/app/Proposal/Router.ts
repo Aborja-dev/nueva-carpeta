@@ -37,6 +37,7 @@ export const createProposalRouter = (repos: any) => {
       }
    });
    router.put('/:id', controller.update);
+   router.delete('/:id', controller.delete);
    return router;
 
 }

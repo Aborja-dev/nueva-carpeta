@@ -68,6 +68,14 @@ const createProposal = async (input: ProposalCreateData) => {
 
 }
 
+const deleteProposal = async (id: number) => {
+    const request = createAuthApiRequest()
+    if (typeof request === 'string') return request
+    return request
+        .delete()
+        .fetch(`proposals/${id}`)
+        .then((res)=> res.status === 200 ? res.json() : 'Ha ocurrido un error')
+}
 
 export const CommonRequest = {
     login,
@@ -78,5 +86,6 @@ export const CommonRequest = {
 export const CandidateRequest = {
     getAll: getAllProposals,
     getdetail: getProposalDetail,
-    createOne: createProposal
+    createOne: createProposal,
+    deleteOne: deleteProposal
 }

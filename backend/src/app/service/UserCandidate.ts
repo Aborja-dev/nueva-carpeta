@@ -50,7 +50,13 @@ export class CandidateService {
         if(!belongsToCandidate) throw new CustomError({where: 'candidate update', type: 'ServiceError', message: 'proposal does not belong to user'})
         await this.proposalRepo.update({id, input: {abstract, streamed}})
     }
-
+    delete = async (id: number) => {
+        if (!this._userId) throw new CustomError({where: 'candidate delete', type: 'ServiceError', message: 'user not found or not exists'})
+        const proposal = await this.proposalRepo.getById(id, this._userId as string)
+        const belongsToCandidate = proposal?.candidate.id === this._userId
+        if(!belongsToCandidate) throw new CustomError({where: 'candidate delete', type: 'ServiceError', message: 'proposal does not belong to user'})
+        await this.proposalRepo.delete(id)
+    }
     async checkUser(value: string) {
         const user = await this.userRepo.search(value)
         if (!user) throw new CustomError({where: 'candidate checkUser', type: 'BadRequest', message: 'user not found'})

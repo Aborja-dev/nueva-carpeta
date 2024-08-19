@@ -63,4 +63,14 @@ export class ProposalController {
             return res.status(400).json({ message: error.message })
         }
     }
+    delete: Handler = async (req: Request, res) => {
+        const userId = req.app.locals.user.id
+        try {
+            await this.candidate.setUserId(userId)
+            await this.candidate.delete(Number(req.params.id))
+            return res.status(200).json({ message: 'proposal deleted' })
+        } catch (error: any) {
+            return res.status(400).json({ message: error.message })
+        }
+    }
 }

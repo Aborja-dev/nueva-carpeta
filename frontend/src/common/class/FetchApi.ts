@@ -25,6 +25,16 @@ export class FetchApiRequest {
         }
         return this;
     }
+
+    public delete () {
+        this.config = {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+        return this;
+    }
     protected createPath (path: string) {
         return `${this._url}/${path}`
     }
